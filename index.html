@@ -115,7 +115,7 @@ button {
 
 <body>
 
-<h1>🎱 Bingo ใครกันนะได้เงิน</h1>
+<h1>🎱 Bingo 75 ใครกันนะได้เงิน</h1>
 
 <!-- ผู้เล่น -->
 <div class="box">
@@ -148,6 +148,8 @@ button {
 <div style="margin:8px 0">
   <button class="green" onclick="exportLogImage()">📤 Export เป็นรูป</button>
   <button class="gray" onclick="renderTotalNet()">🔢 รวมสุทธิทั้งคืน</button>
+  <button class="red" onclick="clearLog()">🗑️ เคลียร์ Log ทั้งหมด</button>
+
 </div>
 
 <div id="totalNet"></div>
@@ -330,6 +332,25 @@ function renderTotalNet() {
   `;
 }
 
+function clearLog() {
+  if (!confirm("⚠️ ต้องการลบ Log ทั้งหมดจริงหรือไม่?\nข้อมูลจะไม่สามารถกู้คืนได้")) {
+    return;
+  }
+
+  if (!confirm("ยืนยันอีกครั้ง: ลบ Log การเล่นทั้งหมด")) {
+    return;
+  }
+
+  gameHistory = [];
+  localStorage.removeItem("gameHistory");
+
+  renderLogTable();
+  document.getElementById("totalNet").innerHTML = "";
+
+  alert("ลบ Log เรียบร้อยแล้ว");
+}
+
+
 render();
 </script>
 
@@ -352,4 +373,3 @@ function exportLogImage() {
 
 </body>
 </html>
-
