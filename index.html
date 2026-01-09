@@ -357,20 +357,41 @@ render();
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 function exportLogImage() {
-  const div = document.getElementById("logTable");
-  if (!div || div.innerHTML.trim() === "") {
-    alert("ไม่มี Log");
+  const logDiv = document.getElementById("logTable");
+  if (!logDiv || logDiv.innerHTML.trim() === "") {
+    alert("ไม่มี Log ให้ Export");
     return;
   }
-  html2canvas(div,{scale:2}).then(canvas=>{
-    const a=document.createElement("a");
-    a.download="bingo-log.png";
-    a.href=canvas.toDataURL();
+
+  // บังคับเลื่อนขึ้นบนสุดก่อนจับภาพ
+  window.scrollTo(0, 0);
+
+  // clone element เพื่อ fix layout
+  const clone = logDiv.cloneNode(true);
+  clone.style.background = "#1c1c1e";
+  clone.style.color = "#fff";
+  clone.style.padding = "16px";
+  clone.style.width = "100%";
+
+  document.body.appendChild(clone);
+
+  html2canvas(clone, {
+    scale: 2,
+    backgroundColor: "#1c1c1e",
+    windowWidth: clone.scrollWidth,
+    windowHeight: clone.scrollHeight
+  }).then(canvas => {
+    const a = document.createElement("a");
+    a.download = "bingo-log.png";
+    a.href = canvas.toDataURL("image/png");
     a.click();
+    clone.remove();
   });
 }
+
 </script>
 
 </body>
 </html>
+
 
